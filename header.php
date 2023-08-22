@@ -1,3 +1,9 @@
+<?php
+
+session_start();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,8 +28,15 @@
                         <a class="nav-link active" aria-current="page" href="index.php">Home</a>
                         <a class="nav-link" href="discover.php">About Us</a>
                         <a class="nav-link" href="blog.php">Find Blogs</a>
-                        <a class="nav-link" href="signup.php">Sign Up</a>
-                        <a class="nav-link" href="login.php">Log In</a>
+                        <?php 
+                        if (isset($_SESSION['useruid'])) {
+                            echo '<a class="nav-link" href="profile.php">Profile Page</a>';
+                            echo '<a class="nav-link" href="includes/logout.inc.php">Log Out</a>';
+                        } else {
+                            echo '<a class="nav-link" href="signup.php">Sign Up</a>';
+                            echo '<a class="nav-link" href="login.php">Log In</a>';
+                        }
+                        ?>
                     </div>
                 </div>
             </div>

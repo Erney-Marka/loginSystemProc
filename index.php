@@ -4,6 +4,11 @@ include_once 'header.php';
 
 <div class="container">
     <section class="index-intro">
+        <?php
+        if (isset($_SESSION['useruid'])) {
+            echo '<p>Hello there ' . $_SESSION['useruid'] . '<?p>';
+        }
+        ?>
         <h1 class="text-center">This Is An Introduction</h1>
         <p class="lead text-center">Here is a important paragraph that explains the purpose of the website and why you are here!</p>
     </section>
