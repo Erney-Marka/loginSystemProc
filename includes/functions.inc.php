@@ -6,7 +6,7 @@ function emptyInputSignup($name, $email, $username, $pwd, $pwdRepeat)
 {
     $result = '';
 
-    if (empty($name) || empty($email) || empty($username) || empty($pwd) || empty($pwdRepeat)) { // empty - проверяет пустая ли переменная
+    if (empty($name) || empty($email) || empty($username) || empty($pwd) || empty($pwdRepeat)) { 
         $result = true;
     } else {
         $result = false;
@@ -19,7 +19,7 @@ function invalidUid($username)
 {
     $result = '';
 
-    if (!preg_match("/^[a-zA-Z0-9]*$/", $username)) {  // preg_match - выполняет проверку на соответсвие регулярному выражению (1я позиция)
+    if (!preg_match("/^[a-zA-Z0-9]*$/", $username)) {  
         $result = true;
     } else {
         $result = false;
@@ -32,7 +32,7 @@ function invalidEmail($email)
 {
     $result = '';
 
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) { //filter_var - фильтрует переменную, FILTER_VALIDATE_EMAIL - фильтр проверки адреса
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) { 
         $result = true;
     } else {
         $result = false;
@@ -56,29 +56,30 @@ function pwdMatch($pwd, $pwdRepeat)
 
 function uidExists($conn, $username, $email)
 {
-    $sql = "SELECT * FROM users WHERE userUid = ? OR userEmail = ?;"; // выбрать из таблицы пользователей где логин = ?, знак ? это заполнитель
-    $stmt = mysqli_stmt_init($conn); //Инициализирует запрос и возвращает объект для использования в mysqli_stmt_prepare
+    $sql = "SELECT * FROM users WHERE userUid = ? OR userEmail = ?;"; 
+    $stmt = mysqli_stmt_init($conn); 
 
-    if (!mysqli_stmt_prepare($stmt, $sql)) { //подготавливает инструкцию SQL к выполнению
+    if (!mysqli_stmt_prepare($stmt, $sql)) { 
         header('Location: ../signup.php?error=stmtfailed');
         exit();
-    } //проверка на отсутсвие ошибок
+    }
 
-    mysqli_stmt_bind_param($stmt, 'ss', $username, $email); //Привязка переменных к параметрам подготавливаемого запроса, ss - определяет тип передаваемого значения - строка, в данном случае две строки
-    mysqli_stmt_execute($stmt); // Выполняет подготовленное утверждение
+    mysqli_stmt_bind_param($stmt, 'ss', $username, $email); 
+    mysqli_stmt_execute($stmt); 
 
-    $resultData = mysqli_stmt_get_result($stmt); //Получает набор результатов из подготовленного оператора в виде объекта
+    $resultData = mysqli_stmt_get_result($stmt); 
 
-    if ($row = mysqli_fetch_assoc($resultData)) { // создание ассоциативного массива из результата
+    if ($row = mysqli_fetch_assoc($resultData)) { 
         return $row;
     } else {
         $result = false;
         return $result;
     }
 
-    mysqli_stmt_close($stmt); // закрывает выполнение подготовленного заявления
+    mysqli_stmt_close($stmt); 
 }
 
+// создать пользователя
 function createUser($conn, $name, $email, $username, $pwd)
 {
     $sql = "INSERT INTO users (userName, userEmail, userUid, userPwd) VALUES (?, ?, ?, ?);";
